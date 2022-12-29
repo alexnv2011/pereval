@@ -26,7 +26,7 @@ router.register(r'images', views.ImageViewset)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index),
+    # path('', views.index),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
     # path("create/", views.create),
