@@ -7,7 +7,7 @@ from .serializers import *
 from .models import *
 from rest_framework.views import APIView
 from django.shortcuts import render
-from rest_framework import viewsets
+
 
 class PerevalViewset(viewsets.ModelViewSet):
     queryset = Pereval.objects.all()
@@ -49,6 +49,9 @@ def create(request):
 
         pereval.save()
         return Response(request.data, status=status.HTTP_201_CREATED)
+    elif request.method == "PUT" and (request.PUT.get("status") == new):
+        print()
+
     else:
         return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
 
@@ -62,7 +65,7 @@ def create(request):
 #         else:
 #             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# # Получение данных из БД
+# # Получение данных из БД для отображения
 # def index(request):
 #     perevals = Pereval.objects.all()
 #     return render(request, "index.html", {"perevals": perevals})
