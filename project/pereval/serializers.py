@@ -1,36 +1,36 @@
 from .models import *
 from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer
 from drf_writable_nested import UniqueFieldsMixin, WritableNestedModelSerializer
 
 
-class AuthorSerializer(serializers.HyperlinkedModelSerializer):
+class AuthorSerializer(ModelSerializer):
+   # author_pereval = PerevalSerializer(many=True)  # show perevals for author
 
     class Meta:
-        model = User
-        fields = ('email', 'username', 'first_name', 'last_name')
+        model = Author
+        fields = '__all__' # ('email', 'first_name', 'last_name', 'otc')
 
 
-class CoordsSerializer(serializers.HyperlinkedModelSerializer):
+class CoordsSerializer(ModelSerializer):
 
     class Meta:
         model = Coords
-        fields = ('latitude', 'longitude', 'height')
+        fields = ('__all__') # ('latitude', 'longitude', 'height')
 
 
 
-class ImageSerializer(serializers.HyperlinkedModelSerializer):
+class ImageSerializer(ModelSerializer):
     class Meta:
         model = Image
         fields = '__all__'
 
 
-class PerevalSerializer(WritableNestedModelSerializer, serializers.HyperlinkedModelSerializer):
-    author = AuthorSerializer()
+class PerevalSerializer(WritableNestedModelSerializer, ModelSerializer):
+    #author = AuthorSerializer(read_only=True)
     coords = CoordsSerializer()
     images = ImageSerializer(source='image_set', many=True, read_only=True)
 
     class Meta:
         model = Pereval
         fields = '__all__'
-
-
